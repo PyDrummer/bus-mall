@@ -11,7 +11,7 @@ var myContainer = document.getElementById('container');
 var totalsOfClicks = document.getElementById('totals');
 
 var picsClicked = 0; // tallys each time one of the pics got clicked so I can stop collecting clicks.
-var allowedClicks = 15;
+var allowedClicks = 21;
 
 function Picture(src, alt) {
   this.viewed = 0;
