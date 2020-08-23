@@ -102,4 +102,3 @@ myContainer.addEventListener('click', eventHandler); // reduced the amount of ev
 // picElThree.addEventListener('click', eventHandler);
 
 renderPics(); // render the 3 images when the page loads up
-
