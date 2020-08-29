@@ -9,10 +9,11 @@ var picElTwo = document.getElementById('image-two');
 var picElThree = document.getElementById('image-three');
 var myContainer = document.getElementById('container');
 var totalsOfClicks = document.getElementById('totals');
+var resetButtonEl = document.getElementById('button');
 var picIndexArray = [];
 
 var picsClicked = 0; // tallys each time one of the pics got clicked so I can stop collecting clicks.
-var allowedClicks = 26;
+var allowedClicks = 6;
 
 function Picture(src, alt) {
   this.viewed = 0;
@@ -22,26 +23,32 @@ function Picture(src, alt) {
   picArray.push(this);
 }
 
-new Picture('./img/bag.jpg', 'bag');
-new Picture('./img/banana.jpg', 'banana');
-new Picture('./img/bathroom.jpg', 'bathroom');
-new Picture('./img/boots.jpg', 'boots');
-new Picture('./img/breakfast.jpg', 'breakfast');
-new Picture('./img/bubblegum.jpg', 'bubblegum');
-new Picture('./img/chair.jpg', 'chair');
-new Picture('./img/cthulhu.jpg', 'cthulhu');
-new Picture('./img/dog-duck.jpg', 'dog-duck');
-new Picture('./img/dragon.jpg', 'dragon');
-new Picture('./img/pen.jpg', 'pen');
-new Picture('./img/pet-sweep.jpg', 'pet-sweep');
-new Picture('./img/scissors.jpg', 'scissors');
-new Picture('./img/shark.jpg', 'shark');
-new Picture('./img/sweep.png', 'sweep');
-new Picture('./img/tauntaun.jpg', 'tauntaun');
-new Picture('./img/unicorn.jpg', 'unicorn');
-new Picture('./img/usb.gif', 'usb');
-new Picture('./img/water-can.jpg', 'water-can');
-new Picture('./img/wine-glass.jpg', 'wine-glass');
+var retrievedPics = localStorage.getItem('savedPics');
+
+if (retrievedPics) {
+  picArray = JSON.parse(retrievedPics);
+} else {
+  new Picture('./img/bag.jpg', 'bag');
+  new Picture('./img/banana.jpg', 'banana');
+  new Picture('./img/bathroom.jpg', 'bathroom');
+  new Picture('./img/boots.jpg', 'boots');
+  new Picture('./img/breakfast.jpg', 'breakfast');
+  new Picture('./img/bubblegum.jpg', 'bubblegum');
+  new Picture('./img/chair.jpg', 'chair');
+  new Picture('./img/cthulhu.jpg', 'cthulhu');
+  new Picture('./img/dog-duck.jpg', 'dog-duck');
+  new Picture('./img/dragon.jpg', 'dragon');
+  new Picture('./img/pen.jpg', 'pen');
+  new Picture('./img/pet-sweep.jpg', 'pet-sweep');
+  new Picture('./img/scissors.jpg', 'scissors');
+  new Picture('./img/shark.jpg', 'shark');
+  new Picture('./img/sweep.png', 'sweep');
+  new Picture('./img/tauntaun.jpg', 'tauntaun');
+  new Picture('./img/unicorn.jpg', 'unicorn');
+  new Picture('./img/usb.gif', 'usb');
+  new Picture('./img/water-can.jpg', 'water-can');
+  new Picture('./img/wine-glass.jpg', 'wine-glass');
+}
 
 // random number generator here:
 function randNumb(max) {
@@ -52,7 +59,7 @@ function randPic() {
   while (picIndexArray.length > 3) {
     picIndexArray.pop();
   }
-  while (picIndexArray.length < 6 ) {
+  while (picIndexArray.length < 6) {
     var picIndex = randNumb(picArray.length);
     while (picIndexArray.includes(picIndex)) {
       picIndex = randNumb(picArray.length);
@@ -106,10 +113,33 @@ function eventHandler(e) {
         totalsOfClicks.append(picClickedAmount);
       }
       renderChart(); // Now that clicks are done we can render the chart.
+      addToLocalStorage();
+      createResetButton();
     }
   }
 }
 
+function addToLocalStorage() {
+  var stringifyPicArray = JSON.stringify(picArray);
+  //set into local storage with key value pair
+  localStorage.setItem('savedPics', stringifyPicArray);
+}
+
+function createResetButton() {
+  resetButtonEl.textContent = 'Click to Reset';
+  resetButtonEl.addEventListener('click', resetHandler);
+}
+
+function resetHandler(e) {
+  console.log(e.target, resetButtonEl);
+  if (e.target === resetButtonEl) {
+    alert('You\'ve Reset The Chart Data!');
+    localStorage.clear();
+    location.reload();
+  }else {
+    alert('didn\'t work');
+  }
+}
 
 // function to render the chart
 
@@ -119,7 +149,7 @@ function renderChart() {
   var clicksData = [];
   var viewsData = [];
 
-  for (var i = 0; i < picArray.length; i++){
+  for (var i = 0; i < picArray.length; i++) {
     picNames.push(picArray[i].alt);
     //console.log(`Pic names array ${picNames}`);
     clicksData.push(picArray[i].clicked);
@@ -142,7 +172,7 @@ function renderChart() {
         data: viewsData, // change this to the views
         backgroundColor: '#F2AA4CFF',
         hoverBackgroundColor: '#F93822FF',
-        borderColor:'#101820FF',
+        borderColor: '#101820FF',
         borderWidth: 1
       }]
     },

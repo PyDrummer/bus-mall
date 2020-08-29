@@ -8,3 +8,5 @@ Collaborated with Karlo and Sam for this one.
 8-26: Added the Chart.js to HTML and js.app. Made the values previously stored for clicked, viewed and alt in the constructor work with the chart.js with a for loop. Made some CSS changes. Will spend more time tomorrow styling CSS.
 
 8-27: Added the rest of the CSS styles. Tried to make everything look nice. Added a hover feature to the chart as well. Collaborated with Karlo and Brandon during this assignment.
+
+8-29: Added the localStorage functionality. Added a reset div for after the chart showes up so you can reset all the chart data.

@@ -6,6 +6,7 @@ body {
   width: 900px;
   margin: auto;
   background-color: #F2EDD7FF;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 h1, p {
@@ -18,10 +19,14 @@ h1 {
   font-weight: bold;
 }
 
+p {
+  font-size: 20px;
+
+}
+
 #first {
   font-size: 25px;
   margin-top: 30px;
-  
 }
 
 section img {
@@ -43,4 +48,13 @@ canvas {
   margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
+}
+
+#button {
+  text-align: center;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  font-size: 30px;
 }
