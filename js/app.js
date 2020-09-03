@@ -13,7 +13,7 @@ var resetButtonEl = document.getElementById('button');
 var picIndexArray = [];
 
 var picsClicked = 0; // tallys each time one of the pics got clicked so I can stop collecting clicks.
-var allowedClicks = 6;
+var allowedClicks = 26;
 
 function Picture(src, alt) {
   this.viewed = 0;
@@ -56,17 +56,16 @@ function randNumb(max) {
 }
 
 function randPic() {
-  while (picIndexArray.length > 3) {
-    picIndexArray.pop();
+  while (picIndexArray.length > 3) { // this makes sure 3 indexs are stored
+    picIndexArray.pop(); // pop out the last 3 indexes
   }
-  while (picIndexArray.length < 6) {
+  while (picIndexArray.length < 6) { // add more indexes till our picIndexArray has 6 indexes
     var picIndex = randNumb(picArray.length);
     while (picIndexArray.includes(picIndex)) {
       picIndex = randNumb(picArray.length);
     }
-    picIndexArray.unshift(picIndex);
+    picIndexArray.unshift(picIndex); // unshift makes these new indexes be pushed to the front of the array.
   }
-  //console.log(picIndexArray);
 }
 
 //render images to the page using randNumb and DOM manipulation
@@ -87,7 +86,6 @@ function renderPics() {
   randPicOne.viewed++;
   randPicTwo.viewed++;
   randPicThree.viewed++;
-  //console.log(picArray);
 }
 
 function eventHandler(e) {
@@ -104,24 +102,28 @@ function eventHandler(e) {
     renderPics();
 
     if (picsClicked === allowedClicks) {
-      myContainer.removeEventListener('click', eventHandler); // reduced the amount of event listeners to just one
+      myContainer.removeEventListener('click', eventHandler); // removing the event listener because allowed clicks amount is met
 
-      // Show the user the totals of all the clicks of the different instances. Use the DOM to show this data. Append to totalsOfClicks
-      for (var i = 0; i < picArray.length; i++) {
-        var picClickedAmount = document.createElement('p');
-        picClickedAmount.textContent = `${picArray[i].alt}, clicked ${picArray[i].clicked} times, viewed ${picArray[i].viewed} times.`;
-        totalsOfClicks.append(picClickedAmount);
-      }
-      renderChart(); // Now that clicks are done we can render the chart.
-      addToLocalStorage();
-      createResetButton();
+      renderList(); // DOM manipulation to show how many times the pics were viewed and clicked
+      renderChart(); // Now that clicks are done we can render the chart
+      addToLocalStorage(); // Save our data to the localStorage
+      createResetButton(); // Reset all the data stored in localStorage
     }
+  }
+}
+
+function renderList(){
+  // Show the user the totals of all the clicks of the different instances. Use the DOM to show this data. Append to totalsOfClicks
+  for (var i = 0; i < picArray.length; i++) {
+    var picClickedAmount = document.createElement('p');
+    picClickedAmount.textContent = `${picArray[i].alt}, clicked ${picArray[i].clicked} times, viewed ${picArray[i].viewed} times.`;
+    totalsOfClicks.append(picClickedAmount);
   }
 }
 
 function addToLocalStorage() {
   var stringifyPicArray = JSON.stringify(picArray);
-  //set into local storage with key value pair
+  //set into local storage with key value pair 'savedPics' and stringifyPicArray
   localStorage.setItem('savedPics', stringifyPicArray);
 }
 
